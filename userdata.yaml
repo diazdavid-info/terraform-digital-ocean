@@ -3,9 +3,14 @@ package_update: true
 packages:
   - docker.io
   - docker-compose
-write_files:
-  - path: /root/index.html
-    content: |
-      Todo Arrancado
 runcmd:
-  - docker run -d -v /root/index.html:/usr/share/nginx/html/index.html -p 80:80 nginx
+  - fallocate -l 2G /swapfile
+  - chmod 600 /swapfile
+  - mkswap /swapfile
+  - swapon /swapfile
+  - cp /etc/fstab /etc/fstab.bak
+  - echo '/swapfile none swap sw 0 0' | tee -a /etc/fstab
+  - echo 'vm.swappiness=10' >> /etc/sysctl.conf
+  - echo 'vm.vfs_cache_pressure=50' >> /etc/sysctl.conf
+  - git clone https://github.com/diazdavid-info/wordpress-nginx-proxy-ssl.git /root/wordpress-nginx-proxy-ssl
+  - docker-compose -f /root/wordpress-nginx-proxy-ssl/docker-compose.yml up -d
