@@ -38,3 +38,8 @@ Para eliminar todo:
 ```
 terraform destroy
 ```
+
+## Conectar al droplet con ssh específico
+```
+ssh root@<IP> -i <path_ssh>
+```
