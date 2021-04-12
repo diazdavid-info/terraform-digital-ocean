@@ -1,3 +1,11 @@
+terraform {
+  required_providers {
+    digitalocean = {
+      source = "digitalocean/digitalocean"
+    }
+  }
+}
+
 variable "digitalocean_token" {}
 
 # Configure the DigitalOcean Provider
